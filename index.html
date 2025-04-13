@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <meta charset="UTF-8">
+  <title>MNKY Monthly USD Reward Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      background: linear-gradient(135deg, #0a0a0a, #1c1c1c);
+      color: #fdfdfd;
+    }
+    h2 {
+      text-align: center;
+      color: #FFD700;
+    }
+    input, button {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+    }
+    input {
+      background-color: #2a2a2a;
+      color: #fdfdfd;
+    }
+    input::placeholder {
+      color: #999;
+    }
+    button {
+      background-color: #FFD700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #e6c200;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 1rem;
+      background: #333;
+      color: #FFD700;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+    .note {
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      color: #fdfdfd;
+      background: #444;
+      padding: 1rem;
+      border-left: 5px solid #FFD700;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>MNKY Monthly USD Reward Calculator</h2>
+
+  <label for="userStake">Your MNKY Staked:</label>
+  <input type="text" id="userStake" placeholder="e.g. 10,000" oninput="formatNumber(this)">
+
+  <label for="totalStake">Total MNKY Staked on Platform:</label>
+  <input type="text" id="totalStake" placeholder="e.g. 1,000,000" oninput="formatNumber(this)">
+
+  <label for="volume">Monthly Platform Volume (USD):</label>
+  <input type="text" id="volume" placeholder="e.g. 100,000" oninput="formatNumber(this)">
+
+  <button onclick="calculateReward()">Calculate Monthly USD Reward</button>
+
+  <div class="result" id="result">Enter monthly values to see your USD reward.</div>
+
+  <div class="note">
+    ✨ <strong>Note:</strong> Payouts will depend on what assets are wagered on the platform. The reward pool will be a combination of <strong>BTC, ETH, SOL, ADA, USDT</strong>, and <strong>USDC</strong>, and is estimated here in USD value.
+  </div>
+
+  <div class="note" style="margin-top: 1rem; background: #2c2c2c; border-left: 5px solid #FFD700;">
+    🧮 <strong>How it works:</strong><br>
+    <ul style="padding-left: 1.2rem; margin: 0;">
+      <li><code>rewardPool = volume × 3%</code></li>
+      <li><code>userShare = your MNKY staked / total MNKY staked</code></li>
+      <li><code>monthlyReward = rewardPool × userShare</code></li>
+      <li><code>annualReward = monthlyReward × 12</code></li>
+    </ul>
+    <br>
+    This estimate assumes a USD-based value output. The actual payout may be distributed in various assets depending on what is wagered on the platform.
+  </div>
+
+  <script>
+    function parseFormattedNumber(value) {
+      return parseFloat(value.replace(/,/g, ''));
+    }
+
+    function formatNumber(el) {
+      const value = el.value.replace(/,/g, '').replace(/[^\d.]/g, '');
+      if (!value) return el.value = '';
+      const parts = value.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      el.value = parts.join('.');
+    }
+
+    function calculateReward() {
+      const volume = parseFormattedNumber(document.getElementById("volume").value);
+      let userStake = parseFormattedNumber(document.getElementById("userStake").value);
+      let totalStake = parseFormattedNumber(document.getElementById("totalStake").value);
+
+      if (isNaN(volume) || isNaN(userStake) || isNaN(totalStake) || totalStake === 0) {
+        document.getElementById("result").innerText = "Please enter valid numbers and ensure total MNKY staked is not zero.";
+        return;
+      }
+
+      const rewardPoolUSD = volume * 0.03;
+      const userShare = userStake / totalStake;
+      const monthlyReward = rewardPoolUSD * userShare;
+      const annualReward = monthlyReward * 12;
+
+      document.getElementById("result").innerHTML =
+        `Based on this month's volume, you will earn approximately $${monthlyReward.toFixed(2)} per month and $${annualReward.toFixed(2)} per year.`;
+    }
+  </script>
+
+  <div style="text-align: center; margin-top: 2rem;">
+    <a href="https://minswap.org/launch-bowl/ido/e3b5e7f0d17aa1ec94ce3c16a6a179faaf954b3669d3384d81ac6c5306d6100f30" target="_blank" style="background-color: #FFD700; color: #000; text-decoration: none; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 8px;">Buy MNKY</a>
+  </div>
+  <div style="height: 25vh;"></div>
+</body>
+</html>
