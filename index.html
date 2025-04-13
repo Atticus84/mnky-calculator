@@ -377,6 +377,17 @@
       const monthlyReward = rewardPoolUSD * userShare;
       const annualReward = monthlyReward * 12;
 
+      // Track calculation event
+      gtag('event', 'calculate_reward', {
+        'event_category': 'engagement',
+        'event_label': 'Calculator Used',
+        'user_stake': userStake,
+        'total_stake': totalStake,
+        'volume': volume,
+        'monthly_reward': monthlyReward,
+        'annual_reward': annualReward
+      });
+
       document.getElementById("monthly-reward").textContent = formatCurrency(monthlyReward);
       document.getElementById("annual-reward").textContent = formatCurrency(annualReward);
       
@@ -407,6 +418,24 @@
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    // Track page load
+    document.addEventListener('DOMContentLoaded', function() {
+      gtag('event', 'page_view', {
+        'event_category': 'engagement',
+        'event_label': 'Calculator Page View'
+      });
+    });
+
+    // Track social link clicks
+    document.querySelectorAll('.socials a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        gtag('event', 'social_click', {
+          'event_category': 'engagement',
+          'event_label': 'Social Link: ' + this.textContent.trim()
+        });
+      });
+    });
   </script>
 </body>
 </html>
