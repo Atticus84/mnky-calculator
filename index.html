@@ -156,8 +156,34 @@
   </script>
 
   <div style="text-align: center; margin-top: 2rem;">
-    <a href="https://minswap.org/launch-bowl/ido/e3b5e7f0d17aa1ec94ce3c16a6a179faaf954b3669d3384d81ac6c5306d6100f30" target="_blank" style="background-color: #FFD700; color: #000; text-decoration: none; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 8px;">Buy MNKY</a>
+    <div id="countdown" style="font-size: 1rem; color: #FFD700; margin-bottom: 1rem;"></div>
+    <a href="https://minswap.org/launch-bowl/ido/e3b5e7f0d17aa1ec94ce3c16a6a179faaf954b3669d3384d81ac6c5306d6100f30" onclick="gtag('event', 'buy_mnky_click', { event_category: 'engagement', event_label: 'Buy MNKY Button' })" target="_blank" style="background-color: #FFD700; color: #000; text-decoration: none; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 8px;">Buy MNKY</a>
   </div>
   <div style="height: 25vh;"></div>
+<script>
+    // Countdown timer to April 15, 2025 18:00 GMT+2
+    const countdownElement = document.getElementById("countdown");
+    const saleEnd = new Date("2025-04-15T16:00:00Z").getTime(); // GMT+2 is 2 hours ahead of UTC
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = saleEnd - now;
+
+      if (distance <= 0) {
+        countdownElement.innerHTML = "🚨 MNKY Sale has ended.";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElement.innerHTML = `⏳ Sale ends in: <strong>${days}d ${hours}h ${minutes}m ${seconds}s</strong>`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
